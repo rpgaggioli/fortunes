@@ -20,8 +20,6 @@ module.exports = function circumcenter(threePoints) {
         var cc3 = d3*(d1+d2) / D;
         
         var center = Point(cc1*p1[0] + cc2*p2[0] + cc3*p3[0], cc1*p1[1] + cc2*p2[1] + cc3*p3[1]);
-        // center[0] = cc1*p1[0] + cc2*p2[0] + cc3*p3[0];
-        // center[1] = cc1*p1[1] + cc2*p2[1] + cc3*p3[1];
 		
 		function distance(p1, p2) {
 			var d = (p1[0]-p2[0]) * (p1[0]-p2[0]) + (p1[1]-p2[1]) * (p1[1]-p2[1]);

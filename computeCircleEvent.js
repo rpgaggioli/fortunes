@@ -4,9 +4,6 @@ module.exports = function(arc1, arc2, arc3, siteList){
 	var circumcenter = require("./circumcenter.js")
 	var leftRight = require("left-right");
 	
-	// if (!arc.lArc || !arc.rArc){
-		// return
-	// }
 	var p1 = arc1.site;
 	var p2 = arc2.site;
 	var p3 =arc3.site;

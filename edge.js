@@ -12,13 +12,6 @@ module.exports = createEdge;
 		this.rDone = false;
 	 }
 	
-	// Edge.prototype.setlArc = function(arc){
-		// this.lArc = arc;
-	// }
-	// Edge.prototype.setrArc = function(arc){
-		// this.rArc = arc;
-	// }
-	
 	Edge.prototype.updateVert = function(sweepLine){
 		
 		if(!this.lDone || !this.rDone){

@@ -48,14 +48,6 @@ module.exports = function(siteList, sweepLine){
 			if ( curr.rBreak && curr.rBreak.x >= site.x){
 				
 				
-				// var a = curr.event;
-				// for (var i = 0; i < queue.length; i++) {
-					// if (queue[i] == a ) {
-						// queue.splice(i,1);
-					// }
-				// }
-				// curr.event = null;
-				
 				var copy = Arc(curr.site);
 				newArc.setlArc(curr); 
 				newArc.setrArc(copy);
@@ -78,21 +70,20 @@ module.exports = function(siteList, sweepLine){
 				
 			}else if(!curr.rBreak){
 				
-				
-				// var a = curr.event;
-				// for (var i = 0; i < queue.length; i++) {
-					// if (queue[i] == a ) {
-						// queue.splice(i,1);
-					// }
-				// }
-				// curr.event = null;
-				
 				newArc.setlArc(curr);
 				var copy = Arc(curr.site);
 				newArc.setrArc(copy);
 				copy.setlArc(newArc);
 				curr.setrArc(newArc); 
-				//break somhow
+				
+				var a = curr.event;
+				if (a){
+					for (var i = 0; i < queue.length; i++) {
+						if ( !a.isPoint() && queue[i].cCenter == a.cCenter ) {
+							queue.splice(i,1);
+						}
+					}
+				}
 				bool = false;
 			}
 			curr = curr.rArc;
@@ -111,8 +102,7 @@ module.exports = function(siteList, sweepLine){
 		newArc.lArc.rEdge = edge;
 		newArc.rArc.lEdge = edge;
 	
-	  // 5. Check cicle events of site at right and sight at left -- use circle = computeCircleEvent(p1, p2, p3, siteList); 
-																		// Event = Event(arc, circle.cCenter ,circle.radius);
+	  // 5. Check cicle events of site at right and sight at left 
 		if(newArc.lArc && newArc.lArc.lArc){
 			var lcircle = computeCircleEvent(newArc, newArc.lArc, newArc.lArc.lArc, siteList);
 		}
@@ -203,36 +193,7 @@ module.exports = function(siteList, sweepLine){
 			edge.rDone = true;
 			edge.lVertex = null;
 		}
-		// edge.updateVert(event.getYAxis())
 		
-		// if(edge.lSite.y < edge.rSite.y){
-			// if (leftRight([edge.lSite.x, edge.lSite.y], [edge.rSite.x, edge.rSite.y] , [event.arc.site.x, event.arc.site.y]) == -1){
-				// edge.lVertex = event.cCenter;
-				// edge.lDone = true;
-			// }else{
-				// edge.rVertex = event.cCenter;
-				// edge.rDone = true;
-			// }
-		// }
-		// if(edge.lSite.y > edge.rSite.y){
-			// if (leftRight([edge.lSite.x, edge.lSite.y], [edge.rSite.x, edge.rSite.y] , [event.arc.site.x, event.arc.site.y]) == -1){
-				// edge.rVertex = event.cCenter;
-				// edge.rDone = true;
-			// }else{
-				// edge.lVertex = event.cCenter;
-				// edge.lDone = true;
-			// }
-		// }
-		
-		// if(edge.lSite.y < edge.rSite.y){
-			// edge.rVertex = event.cCenter;
-			// edge.rDone = true;
-		// }else{
-			// edge.lVertex = event.cCenter;
-			// edge.lDone = true;
-		// }
-		// edgeList.push(edge);
-
 		// 3. Check for CircleEvents at new triples of consecutive arcs with the arc formerly to the left as middle arc
 		// do the same for the former right neighbor as the middle arc
 		if(event.arc.rArc && event.arc.lArc && (event.arc.lArc).lArc){
@@ -246,7 +207,6 @@ module.exports = function(siteList, sweepLine){
 			event.arc.lArc.event = event;
 			//add event to Event
 			if (event.getYAxis() <= sweepLine) {
-				//event.arc.lArc.event = event;
 				queue.push(event);
 			}	
 		}
@@ -255,36 +215,12 @@ module.exports = function(siteList, sweepLine){
 			event.arc.rArc.event = event;
 			//add event to Event
 			if (event.getYAxis() <= sweepLine) {
-				//event.arc.rArc.event = event;
 				queue.push(event);
 			}			
 		}		
 		
-		// if(event.arc.lArc && event.arc.lArc.lArc && event.arc.lArc.lArc.lArc ){
-			// var llcircle = computeCircleEvent(event.arc.lArc, event.arc.lArc.lArc, event.arc.lArc.lArc.lArc,  siteList);
-		// }
-		// if(event.arc.rArc && event.arc.rArc.rArc && event.arc.rArc.rArc.rArc){
-			// var rrcircle = computeCircleEvent(event.arc.rArc.rArc.rArc, event.arc.rArc.rArc, event.arc.rArc, siteList);
-		// }
-		// if (llcircle){
-			// event = Event(event.arc.lArc, llcircle.cCenter, llcircle.radius);
-			// event.arc.lArc.lArc.event = event;
-			
-			// if (event.getYAxis() < sweepLine) {
-				// queue.push(event);
-			// }	
-		// }
-		// if (rrcircle){
-			// event = Event(event.arc.rArc, rrcircle.cCenter, rrcircle.radius);
-			// event.arc.rArc.rArc.event = event;
-			
-			// if (event.getYAxis() < sweepLine) {
-				// queue.push(event);
-			// }			
-		// }	
 		
 		sortQueue();
-		// event.arc = null;
 		
 	}
 	
@@ -321,7 +257,6 @@ module.exports = function(siteList, sweepLine){
 	}
 	
 	//compute k values for the animation
-	//if not lBreak or rBreak fix
 	curr = root;
 	while(curr){
 		bez = arcToBez(curr, sweepLine);
